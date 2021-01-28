@@ -1,0 +1,17 @@
+#BUILD IMAGE
+docker build -t counter-image -f Dockerfile
+
+#RUN CONTAINER
+docker run -it --rm counter-image
+
+#RUN CONTAINER WITH PARAMETER
+docker run -it --rm counter-image 10
+
+#OTHER
+docker ps -a
+docker stop counter-image
+docker rm counter-image
+
+
+# FOLLOWING THIS TUTORIAL TO CREATE DOCKER CONTAINER:
+https://docs.microsoft.com/pl-pl/dotnet/core/docker/build-container?tabs=windows

@@ -23,9 +23,13 @@ namespace RestaurantAPI.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            var result = _service.Get();
-            
-            return result;
+            return _service.Get();
+        }
+
+        [HttpGet("currentDay/{max}")]
+        public IEnumerable<WeatherForecast> Get2([FromQuery]int take, [FromRoute]int max)
+        {
+            return _service.Get();
         }
     }
 }

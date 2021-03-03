@@ -31,5 +31,11 @@ namespace RestaurantAPI.Controllers
         {
             return _service.Get();
         }
+
+        [HttpPost]
+        public string Hello([FromBody] string name)
+        {
+            return $"Hello {name}!";
+        }
     }
 }

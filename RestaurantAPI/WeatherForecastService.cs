@@ -1,6 +1,10 @@
+using System.Collections.Generic;
+using System.Linq;
+using System;
+
 namespace RestaurantAPI
 {
-    public class WeatherForecastService
+    public class WeatherForecastService : IWeatherForecastService
     {
         public static readonly string[] Summaries = new[]
         {
@@ -9,7 +13,7 @@ namespace RestaurantAPI
 
         public IEnumerable<WeatherForecast> Get()
         {
-            var rng = Radnom();
+            var rng = new Random();
 
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
@@ -17,7 +21,7 @@ namespace RestaurantAPI
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
-            .ToArray()
+            .ToArray();
         }
     }
 }

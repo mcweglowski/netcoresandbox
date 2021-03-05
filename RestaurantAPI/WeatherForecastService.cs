@@ -11,14 +11,14 @@ namespace RestaurantAPI
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        public IEnumerable<WeatherForecast> Get()
+        public IEnumerable<WeatherForecast> Get(int take, int minTemperature, int maxTermperature)
         {
             var rng = new Random();
 
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            return Enumerable.Range(1, take).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
+                TemperatureC = rng.Next(minTemperature, maxTermperature),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();

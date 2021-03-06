@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Entities;
+using RestaurantAPI.Models;
 
 namespace RestaurantAPI.Controllers
 {
@@ -17,13 +18,33 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Restaurant>> GetAll()
+        public ActionResult<IEnumerable<RestaurantDto>> GetAll()
         {
             var restaurants = _dbContext
                 .Restaurants
                 .ToList();
 
-            return Ok(restaurants);
+            var restaurantsDto = restaurants
+                .Select(x => new RestaurantDto()
+                {
+                    Category = x.Category,
+                    City = x.Address?.City,
+                    Description = x.Description,
+                    DishList = x.DishList?.Select(x => new DishDto()
+                    {
+                        Description = x.Description,
+                        Id = x.Id,
+                        Name = x.Name,
+                        Price = x.Price
+                    }).ToList(),
+                    HasDelivery = x.HasDelivery,
+                    Id = x.Id,
+                    Name = x.Name,
+                    PostalCode = x.Address?.PostalCode,
+                    Street = x.Address?.Street
+                });
+
+            return Ok(restaurantsDto);
         }
 
         [HttpGet("{id}")]

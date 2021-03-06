@@ -21,6 +21,17 @@ namespace RestaurantAPI.Controllers
             _mapper = mapper;
         }
 
+        [HttpPost]
+        public ActionResult CreateRestaurant([FromBody]CreateRestaurantDto request)
+        {
+            Restaurant restaurant = _mapper.Map<Restaurant>(request);
+            _dbContext.Restaurants.Add(restaurant);
+            _dbContext.SaveChanges();
+
+
+            return Created($"/api/restaurant/{restaurant.Id}", null);
+        }
+
         [HttpGet]
         public ActionResult<IEnumerable<RestaurantDto>> GetAll()
         {

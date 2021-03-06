@@ -5,6 +5,7 @@ namespace RestaurantAPI.Services
 {
     public interface IRestaurantService
     {
+        bool Delete(int id);
         RestaurantDto GetById(int id);
         IEnumerable<RestaurantDto> GetAll();
         int CreateRestaurant(CreateRestaurantDto request);

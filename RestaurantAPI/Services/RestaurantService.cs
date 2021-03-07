@@ -72,5 +72,23 @@ namespace RestaurantAPI.Services
 
             return restaurant.Id;
         }
+
+        public bool PutRestaurant(int id, UpdateRestaurantDto request)
+        {
+            var restaurant = _dbContext.Restaurants.FirstOrDefault(x => x.Id == id);
+
+            if (restaurant is null)
+            {
+                return false;
+            }
+
+            restaurant.Name = request.Name;
+            restaurant.Description = request.Description;
+            restaurant.HasDelivery = request.HasDelivery;
+
+            _dbContext.SaveChanges();
+
+            return true;
+        }
     }
 }

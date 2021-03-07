@@ -9,6 +9,7 @@ namespace RestaurantAPI.Services
         RestaurantDto GetById(int id);
         IEnumerable<RestaurantDto> GetAll();
         int CreateRestaurant(CreateRestaurantDto request);
+        bool PutRestaurant(int id, UpdateRestaurantDto request);
 
     }
 }

@@ -4,6 +4,7 @@ using RestaurantAPI.Entities;
 using RestaurantAPI.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace RestaurantAPI.Services
 {
@@ -11,15 +12,19 @@ namespace RestaurantAPI.Services
     {
         private readonly RestaurantDbContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ILogger _logger;
 
-        public RestaurantService(RestaurantDbContext dbContext, IMapper mapper)
+        public RestaurantService(RestaurantDbContext dbContext, IMapper mapper, ILogger<RestaurantService> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public bool Delete(int id)
         {
+            _logger.LogWarning($"Restaurant with id: {id} DELETE - ACTION INVOKE");
+
             var restaurant = _dbContext.Restaurants.FirstOrDefault(x => x.Id == id);
 
             if (restaurant is null)

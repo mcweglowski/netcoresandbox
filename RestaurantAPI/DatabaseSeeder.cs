@@ -20,14 +20,23 @@ namespace RestaurantAPI
 
         public void Seed()
         {
-            if (true == _dbContext.Database.CanConnect())
+            if (false == _dbContext.Database.CanConnect())
             {
-                if (false == _dbContext.Restaurants.Any())
-                {
-                    var restaurants = GetRestaurants();
-                    _dbContext.Restaurants.AddRange(restaurants);
-                    _dbContext.SaveChanges();
-                }
+                return;
+            }
+
+            if (false == _dbContext.Roles.Any())
+            {
+                var roles = GetRoles();
+                _dbContext.Roles.AddRange(roles);
+                _dbContext.SaveChanges();
+            }
+
+            if (false == _dbContext.Restaurants.Any())
+            {
+                var restaurants = GetRestaurants();
+                _dbContext.Restaurants.AddRange(restaurants);
+                _dbContext.SaveChanges();
             }
         }
 
@@ -92,6 +101,27 @@ namespace RestaurantAPI
             };
 
             return restaurants;
+        }
+
+        public IEnumerable<Role> GetRoles()
+        {
+            var roles = new List<Role>()
+            {
+                new Role()
+                {
+                    Name = "User"
+                },
+                new Role()
+                {
+                    Name = "Manager"
+                },
+                new Role()
+                {
+                    Name = "Admin"
+                }
+            };
+
+            return roles;
         }
     }
 }

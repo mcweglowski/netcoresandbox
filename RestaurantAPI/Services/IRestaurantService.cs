@@ -5,11 +5,11 @@ namespace RestaurantAPI.Services
 {
     public interface IRestaurantService
     {
-        bool Delete(int id);
+        void Delete(int id);
         RestaurantDto GetById(int id);
         IEnumerable<RestaurantDto> GetAll();
         int CreateRestaurant(CreateRestaurantDto request);
-        bool PutRestaurant(int id, UpdateRestaurantDto request);
+        void PutRestaurant(int id, UpdateRestaurantDto request);
 
     }
 }

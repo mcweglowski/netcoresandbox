@@ -21,12 +21,7 @@ namespace RestaurantAPI.Services
 
         public int Create(int restaurantId, CreateDishDto request)
         {
-            var restaurant = _context.Restaurants.FirstOrDefault(x => x.Id == restaurantId);
-
-            if (restaurant is null)
-            {
-                throw new NotFoundException("Restaurant not found");
-            }
+            var restaurant = GetRestaurantById(restaurantId);
 
             var dishEntity = _mapper.Map<Dish>(request);
             dishEntity.RestaurantId = restaurantId;
@@ -40,12 +35,7 @@ namespace RestaurantAPI.Services
 
         public DishDto GetById(int restaurantId, int dishId)
         {
-            var restaurant = _context.Restaurants.FirstOrDefault(x => x.Id == restaurantId);
-
-            if (restaurant is null)
-            {
-                throw new NotFoundException("Restaurant not found");
-            }
+            var restaurant = GetRestaurantById(restaurantId);
 
             var dish = _context.Dishes.FirstOrDefault(d => d.Id == dishId);
 
@@ -66,6 +56,23 @@ namespace RestaurantAPI.Services
 
         public IEnumerable<DishDto> GetAll(int restaurantId)
         {
+            var restaurant = GetRestaurantById(restaurantId);
+           
+            var dishDtos = _mapper.Map<List<DishDto>>(restaurant.DishList);
+
+            return dishDtos;
+        }
+
+        public void RemoveAll(int restaurantId)
+        {
+            var restaurant = GetRestaurantById(restaurantId);
+
+            _context.RemoveRange(restaurant.DishList);
+            _context.SaveChanges();
+        }
+
+        private Restaurant GetRestaurantById(int restaurantId)
+        {
             var restaurant = _context
                 .Restaurants
                 .Include(d => d.DishList)
@@ -75,10 +82,8 @@ namespace RestaurantAPI.Services
             {
                 throw new NotFoundException("Restaurant not found");
             }
-           
-            var dishDtos = _mapper.Map<List<DishDto>>(restaurant.DishList);
 
-            return dishDtos;
+            return restaurant;
         }
     }
 }

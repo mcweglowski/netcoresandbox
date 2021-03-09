@@ -36,6 +36,8 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Manager")]
         public ActionResult CreateRestaurant([FromBody]CreateRestaurantDto request)
         {
             int id = _service.CreateRestaurant(request);

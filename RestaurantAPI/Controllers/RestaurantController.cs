@@ -49,12 +49,10 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy="HasNationality")]
-        [Authorize(Policy="Atleast20")]
-        [Authorize(Policy="Atleast2Restaurants")]
-        public ActionResult<IEnumerable<RestaurantDto>> GetAll()
+        [AllowAnonymous]
+        public ActionResult<IEnumerable<RestaurantDto>> GetAll([FromQuery]string searchPhrase)
         {
-            var restaurants = _service.GetAll();
+            var restaurants = _service.GetAll(searchPhrase);
 
             return Ok(restaurants);
         }

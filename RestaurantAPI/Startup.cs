@@ -83,6 +83,13 @@ namespace RestaurantAPI
             services.AddScoped<RequestTimeMiddleware>();
             services.AddScoped<IUserContextService, UserContextService>();
             services.AddHttpContextAccessor();
+            services.AddCors(options => 
+            {
+                options.AddPolicy("FrontEndClient", builder =>
+                    builder.AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .WithOrigins(Configuration["AllowedOrigins"]));
+            });
 
             services.AddSwaggerGen();
         }
@@ -90,6 +97,8 @@ namespace RestaurantAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DatabaseSeeder seeder)
         {
+            app.UseCors("FrontEndClient");
+
             seeder.Seed();
 
             if (env.IsDevelopment())

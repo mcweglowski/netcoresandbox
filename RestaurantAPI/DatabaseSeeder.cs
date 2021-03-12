@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using RestaurantAPI.Entities;
 
 namespace RestaurantAPI
@@ -23,6 +24,13 @@ namespace RestaurantAPI
             if (false == _dbContext.Database.CanConnect())
             {
                 return;
+            }
+
+            var pendingMigrations =_dbContext.Database.GetPendingMigrations();
+
+            if (pendingMigrations != null && pendingMigrations.Any())
+            {
+                _dbContext.Database.Migrate();
             }
 
             if (false == _dbContext.Roles.Any())
